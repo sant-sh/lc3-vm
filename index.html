@@ -87,7 +87,7 @@ img {
 </p>
 <p>The <a href="lc3.c">final code</a> is about 250 lines of C. All you need to know is how to read basic C or C++ and how to do <a href="https://www.swarthmore.edu/NatSci/echeeve1/Ref/BinaryMath/BinaryMath.html">binary arithmetic</a>. To build and run the code, you will need to be on a Unix system (including macOS). A few Unix APIs are used for configuring the terminal input and display, but these are not essential to the main code. (Contributions for Windows support are welcome.)
 </p>
-<blockquote><p> <strong>Note:</strong> This VM is a <a href="https://en.wikipedia.org/wiki/Literate_programming">literate program</a>. This means you are reading the source code right now! Each piece of code from the project will be shown and explained thoroughly, so you can be sure nothing is left out. The final code was then created by <a href="https://github.com/zyedidia/Literate">"weaving"</a> the code blocks together.
+<blockquote><p> <strong>Note:</strong> This VM is a <a href="https://en.wikipedia.org/wiki/Literate_programming">literate program</a>. This means you are reading the source code right now! Each piece of code from the project will be shown and explained thoroughly, so you can be sure nothing is left out. The final code was then created by <a href="https://github.com/zyedidia/Literate">"weaving"</a> the code blocks together. The repo for this project is <a href="https://github.com/justinmeiners/lc3-vm">found here</a>.
 </p>
 </blockquote>
 <h3> What is a virtual machine?</h3>
@@ -110,7 +110,7 @@ img {
 </p>
 <p>VMs are also useful for executing code in a secure or isolated way. One application of this is garbage collection. There <a href="https://www.lua.org/pil/24.2.html">is no trivial way</a> to implement automatic garbage collection on top of C or C++ since a program cannot see its own stack or variables. However, a VM is “outside” the program it is running and can observe all of the <a href="https://en.wikipedia.org/wiki/Tracing_garbage_collection">memory references</a> on the stack.
 </p>
-<p>Another example of this behavior is demonstrated by <a href="https://solidity.readthedocs.io/en/v0.4.24/introduction-to-smart-contracts.html">Ethereum smart contracts</a>. Smart contracts are small programs which are executed by each validating node in the blockchain network. This requires the node operators to run programs on their machines that have been written by complete strangers, without any opprotunity to scrutinize them beforehand. To prevent a contract from doing malicious things, they are run inside a <a href="http://ethdocs.org/en/latest/introduction/what-is-ethereum.html#ethereum-virtual-machine">VM</a> that has no access to the file system, network, disc, etc. Ethereum is also a good application of the portability features that result when using a VM. Since Ethereum nodes can be run on many kinds of computers and operating systems, the use of a VM allows smart contracts to be written without any consideration of the many platforms they run on.
+<p>Another example of this behavior is demonstrated by <a href="https://solidity.readthedocs.io/en/v0.4.24/introduction-to-smart-contracts.html">Ethereum smart contracts</a>. Smart contracts are small programs which are executed by each validating node in the blockchain network. This requires the node operators to run programs on their machines that have been written by complete strangers, without any opportunity to scrutinize them beforehand. To prevent a contract from doing malicious things, they are run inside a <a href="http://ethdocs.org/en/latest/introduction/what-is-ethereum.html#ethereum-virtual-machine">VM</a> that has no access to the file system, network, disc, etc. Ethereum is also a good application of the portability features that result when using a VM. Since Ethereum nodes can be run on many kinds of computers and operating systems, the use of a VM allows smart contracts to be written without any consideration of the many platforms they run on.
 </p>
 
 </div>
@@ -317,7 +317,7 @@ BRn LOOP                           ; go back to LOOP if the result was negative
 <a name="1:5"><div class="section"><h4>5. Executing Programs</h4></a>
 <p>Once again, the previous examples are just to give you an idea of what the VM does. To write a VM, you don't need to be fluent in assembly. As long as you follow the proper procedure for reading and executing instructions, <em>any</em> LC-3 program will run correctly, no matter how complicated it is. In theory, it could even run a web browser or an operating system like Linux!
 </p>
-<p>If you think about this property deeply, it is a philosophically remarkable idea. The programs themselves can do all kinds of intelligent things that we never anticipated and may not be able to understand, but at the same time, everything they can do is limited to the simple code we will write! We simultaneously know everything and nothing about how each program works. Turing discussed this marvelous idea idea:
+<p>If you think about this property deeply, it is a philosophically remarkable idea. The programs themselves can do all kinds of intelligent things that we never anticipated and may not be able to understand, but at the same time, everything they can do is limited to the simple code we will write! We simultaneously know everything and nothing about how each program works. Turing discussed this marvelous idea:
 </p>
 <blockquote><p> "The view that machines cannot give rise to surprises is due, I believe, to a fallacy to which philosophers and mathematicians are particularly subject. This is the assumption that as soon as a fact is presented to a mind all consequences of that fact spring into the mind simultaneously with it. It is a very useful assumption under many circumstances, but one too easily forgets that it is false." — <a href="https://academic.oup.com/mind/article-pdf/LIX/236/433/9866119/433.pdf">Alan M. Turing</a>
 </p>
@@ -420,7 +420,7 @@ int main(int argc, const char* argv[])
 </div>
 </div>
 <a name="1:6"><div class="section"><h4>6. Implementing Instructions</h4></a>
-<p>Your task now is to fill in each opcode case with a correct implementation. A detailed specification for each instruction is included in the project <a href="docs/lc3-isa.pdf">documents</a>. You will need to learn how each instruction works from its specification and write an implementation. This is easier than it sounds. I will demonstrate how to implement two of them here. The code for the rest can be found in the next section.
+<p>Your task now is to fill in each opcode case with a correct implementation. A detailed specification for each instruction is included in the <a href="docs/lc3-isa.pdf">project documents</a>. You will need to learn how each instruction works from its specification and write an implementation. This is easier than it sounds. I will demonstrate how to implement two of them here. The code for the rest can be found in the next section.
 </p>
 <h3> ADD</h3>
 <p>The <code>ADD</code> instruction takes two numbers, adds them together, and stores the result in a register. The specification for it is found on page 526. Each <code>ADD</code> instruction looks like the following:
@@ -455,7 +455,7 @@ ADD R0 R0 1 ; add 1 to R0 and store back in R0
 </div>
 <p>Here is a summary from the specification:
 </p>
-<blockquote><p> If bit [5] is 0, the second source operand is obtained from <code>SR2</code>. If bit [5] is 1, the second source operand is obtained by sign-extending the <code>imm5</code> field to 16 bits. In either case, the second source operand and the contents of <code>SR1</code> are bitwise ANDed, and the result stored in DR. (Pg. 526)
+<blockquote><p> If bit [5] is 0, the second source operand is obtained from SR2. If bit [5] is 1, the second source operand is obtained by sign-extending the imm5 field to 16 bits. In both cases, the second source operand is added to the contents of SR1 and the result stored in DR. (Pg. 526)
 </p>
 </blockquote>
 <p>That sounds just like what we discussed. But what is "sign-extending"? Although the immediate mode value has only 5 bits, it needs to be added to a 16-bit number. Those 5 bits need to be extended to 16 to match the other number. For positive numbers, we can fill in 0's for the additional bits and the value is the same. However, for negative numbers, this causes a problem. For example, -1 stored in 5 bits is <code>1 1111</code>. If we just extended it with 0's, this is <code>0000 0000 0001 1111</code> which is equal to 32! Sign extension prevents this problem by filling in 0's for positive numbers and 1's for negative numbers.
@@ -481,7 +481,7 @@ uint16_t sign_extend(uint16_t x, int bit_count)
 </blockquote>
 <p>There is one last sentence in the specification:
 </p>
-<blockquote><p> The condition codes are set based on whether the binary value produced, taken as a 2’s complement integer, is negative, zero, or positive. (Pg. 526)
+<blockquote><p> The condition codes are set, based on whether the result is negative, zero, or positive. (Pg. 526)
 </p>
 </blockquote>
 <p>Earlier we defined a condition flags enum, and now it's time to use them. <em>Any time</em> a value is written to a register, we need to update the flags to indicate its sign. We will write a function so that this can be reused:
@@ -624,7 +624,7 @@ char* far_data = "apple";
 </div>
 <p>As I said, this instruction shared a lot of the code and knowledge learned from <code>ADD</code>. You will find this is the case with the remaining instructions.
 </p>
-<p>You now need to go back and implement the rest of the switch cases for the instructions. Follow the specification and use the code listed here to complete the others. The code for all instructions is listed at the end of the tutorial. Two of the opcodes specified before will not be used, they are <code>OP_RTI</code> and <code>OP_RES</code>. You can ignore these cases or throw an error if they are executed. After you are done, the bulk of your VM will be completed!
+<p>You now need to go back and implement the rest of the switch cases for the instructions. Follow <a href="docs/lc3-isa.pdf">the specification</a> and use the code listed here to complete the others. The code for all instructions is listed at the end of the tutorial. Two of the opcodes specified before will not be used, they are <code>OP_RTI</code> and <code>OP_RES</code>. You can ignore these cases or throw an error if they are executed. After you are done, the bulk of your VM will be completed!
 </p>
 
 </div>
@@ -1388,7 +1388,7 @@ Are you on an ANSI terminal (y/n)? y
 </p>
 <p>The idea here is to reuse the steps common to each instruction. For example, several of the instructions use indirect addressing or sign extend a value and add it to the current PC value. Wouldn't it be nice if we could write this code once for all instructions? 
 </p>
-<p>By thinking of the instruction as a pipeline of steps we can see that each instruction is just a permuation of several of the smaller steps. We will use bitwise flags to mark which steps to perform for each instruction. A <code>1</code> in the bit corresponding to the instruction number indicates the compiler should include this section of code for that instruction.
+<p>By thinking of the instruction as a pipeline of steps we can see that each instruction is just a permutation of several of the smaller steps. We will use bitwise flags to mark which steps to perform for each instruction. A <code>1</code> in the bit corresponding to the instruction number indicates the compiler should include this section of code for that instruction.
 </p>
 
 <div class="codeblock">
